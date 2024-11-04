@@ -8,7 +8,7 @@
   },
   "keywords": [],
   "author": "Dominic Daniel Kraemer",
-  "license": "MIT",
+  "license": "ISC",
   "devDependencies": {
     "typescript": "^5.6.3"
   }
