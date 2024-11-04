@@ -2,14 +2,16 @@
   "name": "spotify-session-app",
   "version": "1.0.0",
   "description": "",
-  "main": "",
+  "main": "index.ts",
+  "type": "module",
   "scripts": {
-
+    "build": "tsc"
   },
   "keywords": [],
   "author": "Dominic Daniel Kraemer",
   "license": "ISC",
   "devDependencies": {
+    "@types/node": "^22.8.7",
     "typescript": "^5.6.3"
   }
 }
