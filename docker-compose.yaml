@@ -1,4 +1,12 @@
 services:
+  nodejs:
+    build:
+      context: backend/
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    networks:
+      - spotify-session-network
   nginx:
     build:
       context: ./
