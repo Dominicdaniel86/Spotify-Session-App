@@ -4,7 +4,7 @@ services:
       context: ./server
       dockerfile: Dockerfile
     volumes:
-      - ./public:/usr/share/nginx/
+      - ./frontend/public:/usr/share/nginx/
     ports:
       - 80:80
     networks:
