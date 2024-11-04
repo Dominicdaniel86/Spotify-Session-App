@@ -1,8 +1,8 @@
 services:
   nginx:
     build:
-      context: ./server
-      dockerfile: Dockerfile
+      context: ./
+      dockerfile: server/Dockerfile
     volumes:
       - ./frontend/public:/usr/share/nginx/
     ports:
