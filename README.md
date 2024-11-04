@@ -10,8 +10,12 @@ The Spotify Session App is designed to democratize the music listening experienc
 
 ### System Overview
 
-Describes the architecture and major components of the system.
+The application consits of three core parts:
+
+- Nginx Server: serves static files and functions as a reverse proxy
+- Node.js Server: handles business logic and processes requests
+- Database: stores and manages relevant data
 
 ### Start the Application
 
-Instructions for setting up and launching the project.
+$docker compose up -d --build
