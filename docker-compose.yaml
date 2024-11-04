@@ -1,0 +1,15 @@
+services:
+  nginx:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    volumes:
+      - ./public:/usr/share/nginx/
+    ports:
+      - 80:80
+    networks:
+      - spotify-session-network
+
+networks:
+  spotify-session-network:
+    driver: bridge
