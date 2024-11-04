@@ -1,4 +1,4 @@
-FROM node:16-alpine
+FROM node:19-bullseye
 
 WORKDIR /usr/src/app
 
@@ -7,6 +7,7 @@ RUN npm install
 
 COPY . .
 RUN npm run build
+RUN mv dist/ node/
 
 EXPOSE 3000
 
