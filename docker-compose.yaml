@@ -1,18 +1,23 @@
 services:
-  nodejs:
+  node-server:
     build:
       context: backend/
       dockerfile: Dockerfile
+    container_name: spotify-session-server
     networks:
       - spotify-session-network
+
   nginx:
     build:
       context: ./
       dockerfile: server/Dockerfile
+    container_name: nginx-container
     ports:
       - 80:80
     networks:
       - spotify-session-network
+    depends_on:
+      - node-server
 
 networks:
   spotify-session-network:
