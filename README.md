@@ -1,10 +1,10 @@
-# Project Title
+# Spotify Session App
 
-This is a basic README file for the project.
+This document provides a basic overview of the app. For future updates and ongoing tasks, please refer to the "Issues" section.
 
 ## Description
 
-Details the project's purpose and its primary functionality.
+The Spotify Session App is designed to democratize the music listening experience during Spotify sessions. It allows all participants equal opportunities to add tracks to the playlist, regardless of the number of songs they contribute. This inclusive approach ensures that everyone has a voice in the music selection process.
 
 ## Getting Started
 
