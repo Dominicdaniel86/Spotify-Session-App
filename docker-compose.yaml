@@ -3,8 +3,6 @@ services:
     build:
       context: ./
       dockerfile: server/Dockerfile
-    volumes:
-      - ./frontend/public:/usr/share/nginx/
     ports:
       - 80:80
     networks:
