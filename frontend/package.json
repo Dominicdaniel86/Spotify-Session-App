@@ -1,13 +1,23 @@
 {
   "name": "spotify-session-app-frontend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "compiling for frontend specific typescript",
+  "main": "public/javascript/index.js",
   "type": "module",
   "scripts": {
     "build": "tsc"
   },
-  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/Dominic86/spotify-session-app"
+  },
+  "keywords": [
+    "typescript",
+    "frontend",
+    "spotify",
+    "session",
+    "compiling"
+  ],
   "author": "Dominic Daniel Kraemer",
   "license": "ISC",
   "devDependencies": {

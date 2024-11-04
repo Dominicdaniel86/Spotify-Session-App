@@ -1,14 +1,24 @@
 {
   "name": "spotify-session-app-nodejs-server",
   "version": "1.0.0",
-  "description": "",
+  "description": "a nodejs server for user management and song requests",
   "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "node srcc/server.js",
+    "start": "node node/server.js",
     "build": "tsc"
   },
-  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "https://gitlab.com/Dominic86/spotify-session-app"
+  },
+  "keywords": [
+    "typescript",
+    "backend",
+    "spotify",
+    "session",
+    "nodejs"
+  ],
   "author": "Dominic Daniel Kraemer",
   "license": "ISC",
   "dependencies": {
