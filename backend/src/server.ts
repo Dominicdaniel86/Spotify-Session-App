@@ -44,16 +44,19 @@ app.get('/spotify/admin/callback', (req, res) => {
     requestAccessToken(code);
 });
 
-app.get('/spotify/admin/play', (req, res) => {
+app.put('/spotify/admin/play', (req, res) => {
     console.debug("debug: play/ resume call");
+    playSong();
 });
 
-app.get('/spotify/admin/pause', (req, res) => {
+app.put('/spotify/admin/pause', (req, res) => {
     console.debug("debug: pause call");
+    pauseSong();
 });
 
-app.get('/spotify/admin/skip', (req, res) => {
+app.post('/spotify/admin/skip', (req, res) => {
     console.debug("debug: skip call");
+    skipSong();
 });
 
 // search song
