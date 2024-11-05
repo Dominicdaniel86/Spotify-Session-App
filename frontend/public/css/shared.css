@@ -36,5 +36,6 @@
     }
     #tabs button {
         flex: 1;
+        font-size: 3rem;
     }
 }
