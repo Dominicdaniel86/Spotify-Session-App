@@ -2,7 +2,7 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import cookieParser from 'cookie-parser';
-import { requestAccessToken, requestUserAuthorization } from './spotify-authentication.js';
+import { clientCredentials, requestAccessToken, requestUserAuthorization } from './spotify-authentication.js';
 import { pauseSong, playSong, skipSong } from './spotify-api-calls.js';
 
 const app = express();
@@ -11,6 +11,9 @@ app.use(cookieParser());
 const __dirname = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 const PORT = process.env.PORT || 3000;
+
+// always execute client credentials authentication
+clientCredentials();
 
 // serve static files
 app.get('/', (req, res) => {
