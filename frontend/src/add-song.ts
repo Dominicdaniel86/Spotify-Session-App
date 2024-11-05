@@ -1,9 +1,4 @@
-declare global {
-    interface Window {
-        logout: () => void;
-    }
-}
-
-window.logout = function logout() {
-    window.location.href = "/";
-}
+document.addEventListener("DOMContentLoaded", () => {
+    const input = document.getElementById("song-input") as HTMLInputElement;
+    input.value = "";
+});

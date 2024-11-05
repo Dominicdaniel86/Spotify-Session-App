@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="static/css/add-song.css">
     <link rel="icon" type="image/x-icon"  href="../../static/icons/favicon.ico">
     <script type="module" src="static/javascript/add-song.js"></script>
+    <script type="module" src="static/javascript/login-logout-redirect.js"></script>
 </head>
 <body>
     <div id="banner">
@@ -16,13 +17,13 @@
     <div id="content">
         <button id="logout" onclick="logout()">Logout</button>
         <p>Songname:</p>
-        <input>
+        <input id="song-input">
     </div>
 
     <div id="tabs">
         <button style="background-color: green; color: white;">Add Song</button>
-        <button>Playlist</button>
-        <button>Admin</button>
+        <button onclick="redirect('/playlist')">Playlist</button>
+        <button onclick="redirect('/admin')">Admin</button>
     </div>
 
 </body>
