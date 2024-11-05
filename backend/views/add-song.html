@@ -3,11 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <title>Add Song | Spotify Session App</title>
+    <link rel="stylesheet" href="static/css/shared.css">
     <link rel="icon" type="image/x-icon"  href="../../static/icons/favicon.ico">
     <script type="module" src="static/javascript/add-song.js"></script>
 </head>
 <body>
-    <h1>Welcome </h1>
-    <button onclick="logout()">Logout</button>
+    <div id="banner">
+        <h1>Welcome </h1>
+    </div>
+    
+    <div id="content">
+        <button id="logout" onclick="logout()">Logout</button>
+        <h1>Placeholder</h1>
+    </div>
+
+    <div id="tabs">
+        <button style="background-color: green;">Add Song</button>
+        <button>Playlist</button>
+        <button>Admin</button>
+    </div>
+
 </body>
 </html>
