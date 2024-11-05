@@ -3,7 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import cookieParser from 'cookie-parser';
 import { clientCredentials, requestAccessToken, requestUserAuthorization } from './spotify-authentication.js';
-import { pauseSong, playSong, skipSong } from './spotify-api-calls.js';
+import { pauseSong, playSong, searchSong, skipSong } from './spotify-api-calls.js';
 
 const app = express();
 app.use(cookieParser());
@@ -38,6 +38,18 @@ app.get('/admin', (req, res) => {
 });
 
 // api calls
+app.get('/spotify/searchSong/:songName', (req, res) => {
+    const song = req.params.songName;
+    searchSong(song)
+    .then(tracks => {
+        console.log("Tracks found:", tracks);
+    })
+    .catch(error => {
+        console.error("Error searching for songs:", error);
+    });
+});
+
+// admin api calls
 app.get('/spotify/admin/login', (req, res) => {
     console.debug("debug: spotify login started");
     requestUserAuthorization(res);
@@ -65,8 +77,6 @@ app.post('/spotify/admin/skip', (req, res) => {
     console.debug("debug: skip call");
     skipSong();
 });
-
-// search song
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);

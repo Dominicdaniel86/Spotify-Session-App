@@ -2,6 +2,7 @@ declare global {
     interface Window {
         put: (url: string, data: object) => void;
         post: (url: string, data: object) => void;
+        get: (url: string) => void;
     }
 }
 
@@ -30,6 +31,23 @@ window.post = function post(url: string, data: object) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(data)
+    })
+    .then(response => {
+        if(!response.ok)
+            throw new Error("response was not ok: " + response.status);
+        console.log("response ok");
+    })
+    .catch(err => {
+        console.error("error: ", err);
+    });
+}
+
+window.get = function get(url: string) {
+    fetch(url, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
     })
     .then(response => {
         if(!response.ok)
