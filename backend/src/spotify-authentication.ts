@@ -2,7 +2,7 @@ import { Response } from 'express';
 import querystring from 'querystring';
 import fs from 'fs';
 
-const REDIRECT_URI: string = 'http://localhost/spotify/callback';
+const REDIRECT_URI: string = 'http://localhost/spotify/admin/callback';
 const CLIENT_ID: string = process.env.CLIENT_ID || "";
 const CLIENT_SECRET: string = process.env.CLIENT_SECRET || "";
 
@@ -13,10 +13,12 @@ export function requestUserAuthorization(res: Response) {
         client_id: CLIENT_ID,
         response_type: 'code',
         redirect_uri: REDIRECT_URI,
-        show_dialog: true
+        show_dialog: true,
+        scope: 'user-modify-playback-state'
     }));
 }
 
+//
 export function requestAccessToken(prevCode: string) {
     if(prevCode==="")
         return;
@@ -45,9 +47,14 @@ export function requestAccessToken(prevCode: string) {
         let accessToken: string = data.access_token;
         let refreshToken: string = data.refresh_token;
         let expiresIn: string = data.expires_in;
-        let content: string = accessToken + "\n" + refreshToken + "\n" + expiresIn + "\n";
 
-        fs.writeFile('/usr/src/app/token.txt', content, (err) => {
+        process.env.SPOTIFY_TOKEN = accessToken;
+
+        let content: string = "SPOTIFY_TOKEN=" + accessToken + "\n"
+                                + "SPOTIFY_REFRESH_TOKEN=" + refreshToken + "\n"
+                                + "SPOTIFY_EXPIRES_IN=" + expiresIn + "\n";
+
+        fs.writeFile('/usr/src/app/token.env', content, (err) => {
             if (err)
                 console.error("error: ", err);
         });
@@ -57,4 +64,9 @@ export function requestAccessToken(prevCode: string) {
         console.error("error: ", error);
     });
 
+}
+
+//
+export function clientCredentials() {
+    
 }

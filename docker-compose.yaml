@@ -6,8 +6,10 @@ services:
     container_name: spotify-session-server
     env_file:
       - configs/server.env
+      - backend/token.env
     volumes:
-       - ./backend/token.txt:/usr/src/app/token.txt
+       - ./backend/token.env:/usr/src/app/token.env
+       - ./backend/client-token.env:/usr/src/app/client-token.env
     networks:
       - spotify-session-network
     depends_on:
