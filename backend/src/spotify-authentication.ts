@@ -1,5 +1,6 @@
 import { Response } from 'express';
 import querystring from 'querystring';
+import fs from 'fs';
 
 const REDIRECT_URI: string = 'http://localhost/spotify/callback';
 const CLIENT_ID: string = process.env.CLIENT_ID || "";
@@ -41,7 +42,16 @@ export function requestAccessToken(prevCode: string) {
     })
     .then(response => response.json())
     .then(data => {
-        console.log(data);
+        let accessToken: string = data.access_token;
+        let refreshToken: string = data.refresh_token;
+        let expiresIn: string = data.expires_in;
+        let content: string = accessToken + "\n" + refreshToken + "\n" + expiresIn + "\n";
+
+        fs.writeFile('/usr/src/app/token.txt', content, (err) => {
+            if (err)
+                console.error("error: ", err);
+        });
+
     })
     .catch(error => {
         console.error("error: ", error);
