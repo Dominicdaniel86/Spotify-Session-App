@@ -4,6 +4,10 @@ services:
       context: backend/
       dockerfile: Dockerfile
     container_name: spotify-session-server
+    env_file:
+      - configs/server.env
+    volumes:
+       - ./backend/token.txt:/usr/src/app/token.txt
     networks:
       - spotify-session-network
     depends_on:
@@ -25,11 +29,8 @@ services:
   mariadb:
     image: mariadb:10.5
     container_name: mariadb-container
-    environment:
-      MARIADB_ROOT_PASSWORD: root
-      MARIADB_DATABASE: spotify_session_db
-      MARIADB_USER: mariauser
-      MARIADB_PASSWORD: root
+    env_file:
+      - configs/database.env
     volumes:
        - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
