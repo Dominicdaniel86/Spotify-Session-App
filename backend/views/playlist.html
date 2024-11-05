@@ -5,6 +5,7 @@
     <title>Playlist | Spotify Session App</title>
     <link rel="stylesheet" href="static/css/shared.css">
     <link rel="icon" type="image/x-icon"  href="static/icons/favicon.ico">
+    <script type="module" src="static/javascript/login-logout-redirect.js"></script>
 </head>
 <body>
     <div id="banner">
@@ -17,9 +18,9 @@
     </div>
 
     <div id="tabs">
-        <button>Add Song</button>
+        <button onclick="redirect('/addSong')">Add Song</button>
         <button style="background-color: green; color: white;">Playlist</button>
-        <button>Admin</button>
+        <button onclick="redirect('/admin')">Admin</button>
     </div>
 
 </body>

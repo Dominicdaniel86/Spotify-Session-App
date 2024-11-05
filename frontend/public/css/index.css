@@ -7,22 +7,34 @@ body {
 @media (max-width: 1000px) {
     body {
         text-align: center;
+        margin: 0;
+        padding: 0;
     }
     h1, h2, h3, h4, h5, h6 {
         font-size: 5rem;
-        margin-bottom: 1.5em;
-        color: green;
     }
     p {
         font-size: 4rem;
         text-align: left;
-        margin-left: 12.5%;
-        margin-bottom: 0.7em;
+        margin-left: 10%;
+        margin-bottom: 0.35em;
     }
     input {
         font-size: 3rem;
+        padding: 0.2em;
     }
     button {
         font-size: 3rem;
+        margin: 0.3em;
+        color: green;
+        padding: 0.2em;
+    }
+    #banner {
+        background-color: green;
+        color: white;
+        margin-top: 0;
+        padding-top: 0.2em;
+        padding-bottom: 0.2em;
+        text-align: center;
     }
 }
