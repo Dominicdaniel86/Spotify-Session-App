@@ -7,6 +7,7 @@ services:
     env_file:
       - configs/server.env
       - backend/token.env
+      - backend/client-token.env
     volumes:
        - ./backend/token.env:/usr/src/app/token.env
        - ./backend/client-token.env:/usr/src/app/client-token.env

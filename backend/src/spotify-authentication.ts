@@ -68,5 +68,38 @@ export function requestAccessToken(prevCode: string) {
 
 //
 export function clientCredentials() {
-    
+
+    const postData = querystring.stringify({
+        grant_type: 'client_credentials'
+    });
+
+    const authorizationHeader = "Basic " + Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString('base64');
+
+    fetch('https://accounts.spotify.com/api/token', {
+        method: 'POST',
+        headers: {
+            'Authorization': authorizationHeader,
+            'Content-Type': "application/x-www-form-urlencoded"
+        },
+        body: postData
+    })
+    .then(response => response.json())
+    .then(data => {
+        let accessToken: string = data.access_token;
+        let expiresIn: string = data.expires_in;
+
+        process.env.CLIENT_TOKEN = accessToken;
+
+        let content: string = "CLIENT_TOKEN=" + accessToken + "\n"
+                                + "CLIENT_EXPIRES_IN=" + expiresIn + "\n";
+        
+        fs.writeFile('/usr/src/app/client-token.env', content, (err) => {
+            if (err)
+                console.error("error: ", err);
+        });
+
+    })
+    .catch(error => {
+        console.error("error: ", error);
+    });
 }
