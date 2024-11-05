@@ -30,12 +30,12 @@ app.get('/admin', (req, res) => {
 });
 
 // api calls
-app.get('/spotify/login', (req, res) => {
+app.get('/spotify/admin/login', (req, res) => {
     console.debug("debug: spotify login started");
     requestUserAuthorization(res);
 });
 
-app.get('/spotify/callback', (req, res) => {
+app.get('/spotify/admin/callback', (req, res) => {
     console.log("debug: spotify callback");
     console.log("debug: received " + req.query.code);
     let code: string = String(req.query.code) || "";
@@ -44,5 +44,5 @@ app.get('/spotify/callback', (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log("Server is running on http://localhost:${PORT}");
+    console.log(`Server is running on http://localhost:${PORT}`);
 });

@@ -1,4 +1,5 @@
 **/node_modules/
 **/javascript/
 configs/
-backend/token.txt
+backend/token.env
+backend/client-token.env
