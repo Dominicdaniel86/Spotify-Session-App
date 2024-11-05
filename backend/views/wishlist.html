@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Playlist | Spotify Session App</title>
+    <title>Wishlist | Spotify Session App</title>
     <link rel="stylesheet" href="static/css/shared.css">
     <link rel="icon" type="image/x-icon"  href="static/icons/favicon.ico">
     <script type="module" src="static/javascript/login-logout-redirect.js"></script>
@@ -14,13 +14,13 @@
     
     <div id="content">
         <button id="logout" onclick="logout()">Logout</button>
-        <h1>Playlist</h1>
+        <h1>Wishlist</h1>
     </div>
 
     <div id="tabs">
         <button onclick="redirect('/addSong')">Add Song</button>
-        <button style="background-color: green; color: white;">Playlist</button>
-        <button onclick="redirect('/wishlist')">Wishlist</button>
+        <button onclick="redirect('/playlist')">Playlist</button>
+        <button style="background-color: green; color: white;">Wishlist</button>
         <button onclick="redirect('/admin')">Admin</button>
     </div>
 
