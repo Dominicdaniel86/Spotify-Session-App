@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="static/css/shared.css">
     <link rel="icon" type="image/x-icon"  href="static/icons/favicon.ico">
     <script type="module" src="static/javascript/login-logout-redirect.js"></script>
-    <script type="module" src="static/javascript/requests.js"></script>
+    <script type="module" src="static/javascript/http-requests.js"></script>
 </head>
 <body>
     <div id="banner">
@@ -16,10 +16,10 @@
     <div id="content">
         <button id="logout" onclick="logout()">Logout</button>
         <button onclick="window.location.href='/spotify/admin/login'">spotify login</button>
-        <br>
-        <button>pause</button>
-        <button>play</button>
-        <button>next</button>
+        <br><br><br><br><br><br><br><br><br><br><br><br><br>
+        <button onclick="put('/spotify/admin/pause', null)">⏸</button>
+        <button onclick="put('/spotify/admin/play', null)">⏵</button>
+        <button onclick="post('/spotify/admin/skip', null)">⏭</button>
     </div>
 
     <div id="tabs">
