@@ -3,6 +3,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import cookieParser from 'cookie-parser';
 import { requestAccessToken, requestUserAuthorization } from './spotify-authentication.js';
+import { pauseSong, playSong, skipSong } from './spotify-api-calls.js';
 
 const app = express();
 app.use(cookieParser());
@@ -42,6 +43,20 @@ app.get('/spotify/admin/callback', (req, res) => {
     res.redirect("/admin");
     requestAccessToken(code);
 });
+
+app.get('/spotify/admin/play', (req, res) => {
+    console.debug("debug: play/ resume call");
+});
+
+app.get('/spotify/admin/pause', (req, res) => {
+    console.debug("debug: pause call");
+});
+
+app.get('/spotify/admin/skip', (req, res) => {
+    console.debug("debug: skip call");
+});
+
+// search song
 
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
