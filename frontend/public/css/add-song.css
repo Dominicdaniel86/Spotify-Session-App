@@ -1,0 +1,9 @@
+/* mobile */
+@media (max-width: 1000px) {
+    #content p {
+        margin-bottom: 0;
+    }
+    #content input {
+        font-size: 0.8em;
+    }
+}
