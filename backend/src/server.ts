@@ -2,7 +2,7 @@ import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import cookieParser from 'cookie-parser';
-import { requestUserAuthorization } from './spotify-authentication.js';
+import { requestAccessToken, requestUserAuthorization } from './spotify-authentication.js';
 
 const app = express();
 app.use(cookieParser());
@@ -38,7 +38,9 @@ app.get('/spotify/login', (req, res) => {
 app.get('/spotify/callback', (req, res) => {
     console.log("debug: spotify callback");
     console.log("debug: received " + req.query.code);
+    let code: string = String(req.query.code) || "";
     res.redirect("/admin");
+    requestAccessToken(code);
 });
 
 app.listen(PORT, () => {
