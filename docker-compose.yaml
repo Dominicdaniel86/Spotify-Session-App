@@ -3,6 +3,7 @@ services:
     build:
       context: backend/
       dockerfile: Dockerfile
+    image: registry.gitlab.com/dominic86/spotify-session-app/node-server:1.0
     container_name: spotify-session-server
     env_file:
       - configs/server.env
@@ -21,6 +22,7 @@ services:
     build:
       context: ./
       dockerfile: server/Dockerfile
+    image: registry.gitlab.com/dominic86/spotify-session-app/nginx-webserver:1.0
     container_name: nginx-container
     ports:
       - 80:80
