@@ -1,7 +1,5 @@
 #!/bin/sh
 
-# wait-for-it.sh
-
 HOST=$1
 PORT=$2
 shift 2
