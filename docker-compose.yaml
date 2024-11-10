@@ -16,7 +16,6 @@ services:
       - spotify-session-network
     depends_on:
       - mariadb
-    entrypoint: ["./scripts/wait-for-it.sh", "mariadb", "3306", "npm", "start"]
 
   nginx:
     build:
