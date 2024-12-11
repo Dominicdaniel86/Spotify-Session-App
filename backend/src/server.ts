@@ -43,6 +43,7 @@ app.get('/spotify/searchSong/:songName', (req, res) => {
     searchSong(song)
     .then(tracks => {
         console.log("Tracks found:", tracks);
+        res.json(tracks);
     })
     .catch(error => {
         console.error("Error searching for songs:", error);

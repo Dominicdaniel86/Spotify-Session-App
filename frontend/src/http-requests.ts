@@ -2,7 +2,7 @@ declare global {
     interface Window {
         put: (url: string, data: object) => void;
         post: (url: string, data: object) => void;
-        get: (url: string) => void;
+        get: (url: string) => Promise<any>;
     }
 }
 
@@ -42,8 +42,8 @@ window.post = function post(url: string, data: object) {
     });
 }
 
-window.get = function get(url: string) {
-    fetch(url, {
+window.get = async function get(url: string) {
+    return fetch(url, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -53,6 +53,7 @@ window.get = function get(url: string) {
         if(!response.ok)
             throw new Error("response was not ok: " + response.status);
         console.log("response ok");
+        return response.json();
     })
     .catch(err => {
         console.error("error: ", err);

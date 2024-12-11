@@ -22,5 +22,10 @@ function testDelay(value: string) {
     console.log("current value: " + value);
 
     let url = '/spotify/searchSong/' + value;
-    window.get(url);
+    window.get(url)
+    .then(tracks => {
+        console.log(tracks);
+    }).catch(err => {
+        console.log("Error: ", err);
+    });
 }
