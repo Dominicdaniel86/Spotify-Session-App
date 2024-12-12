@@ -3,10 +3,11 @@ declare global {
         put: (url: string, data: object) => void;
         post: (url: string, data: object) => void;
         get: (url: string) => Promise<any>;
+        httpRequest: <T>(url: string, method: string, data?: object) => Promise<T>;
     }
 }
 
-async function httpRequest<T>(url: string, method: string, data?: object): Promise<T> {
+window.httpRequest = async function httpRequest<T>(url: string, method: string, data?: object): Promise<T> {
 
     const options: RequestInit = {
         method: method,
