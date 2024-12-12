@@ -44,6 +44,11 @@ export function requestAccessToken(prevCode: string) {
     })
     .then(response => response.json())
     .then(data => {
+
+        // no access token returned
+        if(!data.hasOwnProperty('access_token'))
+            return;
+
         let accessToken: string = data.access_token;
         let refreshToken: string = data.refresh_token;
         let expiresIn: string = data.expires_in;
