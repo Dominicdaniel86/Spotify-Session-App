@@ -53,4 +53,5 @@ export enum SpotifyAuthState {
     OAUTH_AUTHORIZATION_STOPPED = 'oauth_authorization_stopped',
     OAUTH_AUTHORIZATION_FAILED = 'oauth_authorization_failed',
     OAUTH_AUTHORIZATION_SUCCESS = 'oauth_authorization_success',
+    DISCONNECTED = 'disconnected',
 }

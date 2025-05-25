@@ -60,7 +60,6 @@ async function changeVolume() {
 //     }
 // }
 
-// TODO: Implement this function
 async function spotifyLogin(): Promise<void> {
     const url = '/api/auth/spotify/login';
     try {
@@ -70,9 +69,22 @@ async function spotifyLogin(): Promise<void> {
     }
 }
 
-// TODO: Implement this function
 export async function spotifyLogout(): Promise<void> {
-    window.location.replace('');
+    const url = '/api/auth/spotify/logout';
+    const config: object = {
+        headers: {
+            Authorization: `Bearer ${getCookie(CookieList.ADMIN_TOKEN)}`,
+        },
+    };
+
+    try {
+        await axios.post(url, null, config);
+        setCookie(CookieList.SPOTIFY_AUTH_STATE, SpotifyAuthState.DISCONNECTED, 1);
+        window.location.replace('');
+    } catch (error) {
+        console.error('Error disconnecting Spotify account:', error);
+        openPopup('An error occurred while disconnecting the Spotify account. Please try again later.');
+    }
 }
 
 export async function logout(): Promise<void> {
@@ -216,6 +228,8 @@ async function validateSpotifyFeedback() {
         openPopup('Spotify OAuth authorization failed. Please try again.');
     } else if (spotifyStatus === SpotifyAuthState.OAUTH_AUTHORIZATION_SUCCESS) {
         openPopup('Spotify OAuth authorization was successful. You can now use the admin panel.');
+    } else if (spotifyStatus === SpotifyAuthState.DISCONNECTED) {
+        openPopup('Successfully disconnected from Spotify. All Spotify features are now disabled.');
     }
     deleteCookie(CookieList.SPOTIFY_AUTH_STATE);
 }

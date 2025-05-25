@@ -11,10 +11,12 @@ import {
     SpotifyStateError,
     AuthenticationError,
     SpotifyStateExpiredError,
+    ExistingSessionError,
 } from '../errors/index.js';
 import { ENV_VARIABLES } from '../config.js';
 import { CookieList, SpotifyAuthState } from '../shared/cookies.js';
-import { setSpotifyStateCookie } from '../utility/authsUtils.js';
+import { newGeneralPurposeValidation, setSpotifyStateCookie } from '../utility/authsUtils.js';
+import type { BaseRes } from '../shared/interfaces/base.js';
 
 const router = express.Router();
 
@@ -110,16 +112,29 @@ router.get('/callback', async (req, res) => {
     }
 });
 
-// TODO: Implement with new structure and multi user support
 router.post('/logout', async (req, res) => {
-    logger.info('A user is trying to logout.');
+    logger.info({ endpoint: '/spotify/logout' }, 'A user is trying to start a session');
+    let token: string;
+    try {
+        token = await newGeneralPurposeValidation(req, res);
+    } catch {
+        // error handled in newGeneralPurposeValidation
+        return;
+    }
 
     try {
-        await logout();
-        res.send('Logged out now!');
+        await logout(token);
+        logger.info({ endpoint: '/spotify/logout' }, 'User logged out successfully');
+        const response: BaseRes = {
+            message: 'Logout successful!',
+            code: 200,
+        };
+        res.status(200).json(response);
     } catch (error) {
         if (error instanceof NotFoundError) {
             res.status(400).json({ error: 'No OAuth token found' });
+        } else if (error instanceof ExistingSessionError) {
+            res.status(409).json({ error: 'User has open sessions, cannot remove OAuth token' });
         } else {
             logger.error(error, 'Failed to log out');
             res.status(500).json({ error: 'Internal server error' });

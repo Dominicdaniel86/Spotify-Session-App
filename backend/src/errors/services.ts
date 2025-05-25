@@ -25,3 +25,10 @@ export class InternalServerError extends Error {
         this.name = 'InternalServerError';
     }
 }
+
+export class ExistingSessionError extends Error {
+    constructor(message: string) {
+        super(message);
+        this.name = 'ExistingSessionError';
+    }
+}
