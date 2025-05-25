@@ -80,7 +80,10 @@ export async function spotifyLogout(): Promise<void> {
     try {
         await axios.post(url, null, config);
         setCookie(CookieList.SPOTIFY_AUTH_STATE, SpotifyAuthState.DISCONNECTED, 1);
-        window.location.replace('');
+        openLoading();
+        setTimeout(() => {
+            window.location.replace('');
+        }, 800);
     } catch (error) {
         console.error('Error disconnecting Spotify account:', error);
         openPopup('An error occurred while disconnecting the Spotify account. Please try again later.');
@@ -103,7 +106,7 @@ export async function logout(): Promise<void> {
         openLoading();
         setTimeout(() => {
             window.location.replace('/static/html/index.html');
-        }, 1000);
+        }, 800);
         deleteCookie(CookieList.ADMIN_USERNAME);
         deleteCookie(CookieList.ADMIN_EMAIL);
         deleteCookie(CookieList.ADMIN_TOKEN);
