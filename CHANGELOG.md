@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.2.0-beta.1] - 2025-05-25
+
+## Added
+
+- Option to disconnect the Spotify account again
+- Provide more feedback for the user about the current Spotify account state
+- Ensure smooth transitions between the different Spotify account states
+
+## Changed
+
+- Improved multiple aspects of the session management
+
 ## [1.1.2-beta.1] - 2025-05-24
 
 ## Changed

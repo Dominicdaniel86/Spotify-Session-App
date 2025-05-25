@@ -3,7 +3,7 @@ services:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    image: dominic86/mursica-fm-backend:1.1.1-beta.1
+    image: dominic86/mursica-fm-backend:1.2.0-beta.1
     container_name: mursica-fm-backend
     env_file:
     - ./backend/.env
@@ -23,7 +23,7 @@ services:
     build:
       context: ./
       dockerfile: ./server/Dockerfile
-    image: dominic86/mursica-fm-proxy:1.1.1-beta.1
+    image: dominic86/mursica-fm-proxy:1.2.0-beta.1
     container_name: mursica-fm-proxy
     ports:
       - "80:80"

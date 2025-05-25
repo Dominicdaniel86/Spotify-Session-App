@@ -1,6 +1,6 @@
 {
   "name": "mursica-fm-frontend",
-  "version": "1.1.1-beta.1",
+  "version": "1.2.0-beta.1",
   "description": "A compiler for a TypeScript-based frontend for a third-party Spotify session app.",
   "type": "module",
   "main": "dist/index.js",
