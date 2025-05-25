@@ -1,4 +1,4 @@
-import type { CurrentSession, Guest, Jwt, User } from '@prisma/client';
+import type { CurrentSession, Guest, Jwt } from '@prisma/client';
 import { prisma } from '../config.js';
 import { InvalidParameterError } from '../errors/services.js';
 import { generateRandomSessionId, generateRandomString } from '../utility/fileUtils.js';
@@ -92,38 +92,29 @@ export async function createNewSession(token: string): Promise<string> {
  * @throws {NotFoundError} If the user does not exist or has no active session.
  * @throws {DatabaseOperationError} If a database operation fails.
  */
-// TODO: Remove all tracks related to the session
-export async function stopCurrentSession(username: string, email: string): Promise<void> {
+// TODO: Stop execution of TimerManager
+export async function stopCurrentSession(token: string): Promise<string> {
     // Validate input
-    if (
-        (username === undefined && email === undefined) ||
-        (username === null && email === null) ||
-        (username === '' && email === '')
-    ) {
-        throw new InvalidParameterError('Username or email is required');
+    if (!token) {
+        throw new InvalidParameterError('Token is required');
     }
 
     // Check if the user exists
-    let userDBEntry: User | null;
+    let tokenDBEntry: Jwt | null;
     try {
-        if (username !== undefined) {
-            userDBEntry = await prisma.user.findUnique({
-                where: {
-                    name: username,
-                },
-            });
-        } else {
-            userDBEntry = await prisma.user.findUnique({
-                where: {
-                    email,
-                },
-            });
-        }
+        tokenDBEntry = await prisma.jwt.findUnique({
+            where: {
+                token,
+            },
+            include: {
+                user: true,
+            },
+        });
     } catch (error) {
-        logger.error(error, 'Could not load the user that wants to create a new session');
-        throw new DatabaseOperationError('Could not load the user that wants to create a new session');
+        logger.error(error, 'Could not load the user that wants to stop the session');
+        throw new DatabaseOperationError('Could not load the user that wants to stop the session');
     }
-    if (userDBEntry === null) {
+    if (tokenDBEntry?.userId === null || tokenDBEntry?.userId === undefined) {
         throw new NotFoundError('User not found');
     }
 
@@ -132,17 +123,9 @@ export async function stopCurrentSession(username: string, email: string): Promi
     try {
         existingSession = await prisma.currentSession.findUnique({
             where: {
-                adminId: userDBEntry?.id,
+                adminId: tokenDBEntry.userId,
             },
         });
-
-        if (existingSession !== null) {
-            await prisma.guest.deleteMany({
-                where: {
-                    sessionId: existingSession.id,
-                },
-            });
-        }
     } catch (error) {
         logger.error(error, 'Failed to check existing session');
         throw new DatabaseOperationError('Failed to check existing session');
@@ -151,17 +134,85 @@ export async function stopCurrentSession(username: string, email: string): Promi
         throw new NotFoundError('User has currently no session');
     }
 
+    let guestsDbEntries: Guest[] = [];
+    try {
+        guestsDbEntries = await prisma.guest.findMany({
+            where: {
+                sessionId: existingSession.id,
+            },
+        });
+    } catch (error) {
+        logger.error(error, 'Failed to load guests from session');
+        throw new DatabaseOperationError('Failed to load guests from session');
+    }
+
+    logger.debug(
+        {
+            sessionId: existingSession.sessionId,
+            adminId: tokenDBEntry.userId,
+            guests: guestsDbEntries.map((guest) => guest.name),
+            file: '/src/services/sessionManagement.ts',
+            function: 'stopCurrentSession',
+        },
+        'Stopping current session'
+    );
+
+    // Remove all tracks from the session
+    try {
+        await prisma.track.deleteMany({
+            where: {
+                OR: [
+                    { userId: tokenDBEntry.userId },
+                    ...(guestsDbEntries.length > 0
+                        ? [{ guestId: { in: guestsDbEntries.map((guest) => guest.id) } }]
+                        : []),
+                ],
+            },
+        });
+    } catch (error) {
+        logger.error(error, 'Failed to delete all related tracks from session');
+        throw new DatabaseOperationError('Failed to delete all related tracks from session');
+    }
+
+    // Remove all guests from the session
+    try {
+        if (guestsDbEntries === null || guestsDbEntries.length === 0) {
+            logger.debug('No guests to delete from session');
+        } else {
+            await prisma.guest.deleteMany({
+                where: {
+                    sessionId: existingSession.id,
+                },
+            });
+        }
+    } catch (error) {
+        logger.error(error, 'Failed to delete all guests from session');
+        throw new DatabaseOperationError('Failed to delete all guests from session');
+    }
+
     // Stop the new session
     try {
         await prisma.currentSession.delete({
             where: {
-                adminId: userDBEntry.id,
+                id: existingSession.id,
             },
         });
     } catch (error) {
         logger.error(error, 'Failed to stop current session');
         throw new DatabaseOperationError('Failed to stop current session');
     }
+
+    logger.debug(
+        {
+            sessionId: existingSession.sessionId,
+            adminId: tokenDBEntry.userId,
+            file: '/src/services/sessionManagement.ts',
+            function: 'stopCurrentSession',
+        },
+        'Session stopped successfully'
+    );
+
+    return existingSession.sessionId;
 }
 
 /**

@@ -142,19 +142,17 @@ async function startSession() {
 
 async function stopSession() {
     const url = '/api/admin/session/stop';
-    const body = {
-        email: getCookie('mursica-fm-admin-email'),
-        username: getCookie('mursica-fm-admin-username'),
-        token: getCookie('mursica-fm-admin-token'),
+    const config: object = {
+        headers: {
+            Authorization: `Bearer ${getCookie(CookieList.ADMIN_TOKEN)}`,
+        },
     };
     try {
-        await axios.post(url, body);
-        deleteCookie('mursica-fm-admin-session-id');
-        deleteCookie('mursica-fm-admin-spotify-status');
+        await axios.post(url, null, config);
+        deleteCookie(CookieList.SESSION_ID);
         window.location.replace('');
     } catch (error) {
-        // eslint-disable-next-line no-alert
-        alert('Error ending session: ' + error);
+        openPopup('An error occurred while ending the session. Please try again later.');
         console.error('Error ending session:', error);
     }
 }

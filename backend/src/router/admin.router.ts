@@ -61,36 +61,35 @@ router.post('/session/start', async (req, res) => {
 });
 
 router.post('/session/stop', async (req, res) => {
-    logger.info('A user is trying to stop a session');
+    logger.info({ endpoint: '/session/stop' }, 'A user is trying to stop a session');
+    let token: string;
     try {
-        await generalPurposeValidation(req, res);
+        token = await newGeneralPurposeValidation(req, res);
     } catch {
-        // error handled in generalPurposeValidation
+        // error handled in newGeneralPurposeValidation
         return;
     }
 
-    const { username, email } = req.body;
-
     try {
-        await stopCurrentSession(username, email);
-        logger.info('Session stopped', { username, email });
+        const sessionId = await stopCurrentSession(token);
+        logger.info({ sessionId, endpoint: '/session/stop' }, 'Successfully stopped session');
         res.status(200).send('Session stopped');
     } catch (error) {
         if (error instanceof InvalidParameterError) {
-            logger.warn(error.message, { username, email });
+            logger.warn({ endpoint: '/session/stop' }, error.message);
             res.status(400).json({ error: error.message });
         } else if (error instanceof NotFoundError) {
-            logger.warn(error.message, { username, email });
+            logger.warn({ endpoint: '/session/stop' }, error.message);
             res.status(404).json({ error: error.message });
         } else {
-            logger.error(error, 'Failed to stop a session', { username, email });
+            logger.error({ endpoint: '/session/stop', error }, 'Failed to stop session');
             res.status(500).json({ error: 'Internal Server error' });
         }
     }
 });
 
 router.get('/session/status', async (req, res) => {
-    logger.info('A user is trying to get the session status');
+    logger.info({ endpoint: '/session/status' }, 'A user is trying to get the session status');
     const token = req.cookies[CookieList.ADMIN_TOKEN];
     if (token === undefined || token === null || token.trim() === '') {
         logger.warn({ endpoint: '/spotify/logout' }, 'No token provided for logout');
